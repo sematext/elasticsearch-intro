@@ -1,12 +1,12 @@
 echo
 echo =================
-echo download
+echo "download"
 echo =================
 wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-0.90.6.tar.gz
 
 echo
 echo =================
-echo extract and get in
+echo "extract and get in"
 echo =================
 tar zxf elasticsearch-0.90.6.tar.gz
 cd elasticsearch-0.90.6
@@ -24,14 +24,14 @@ discovery.zen.ping.unicast.hosts: ["localhost"]
 
 echo
 echo =================
-echo start and wait for it to get started
+echo "start and wait for it to get started"
 echo =================
 bin/elasticsearch
 ERROR=1; while [ ! $ERROR -eq 0 ]; do sleep 1; curl localhost:9200; ERROR=$?; done
 
 echo
 echo =================
-echo index a document
+echo "index a document"
 echo =================
 curl -XPUT localhost:9200/blog/posts/1 -d '{
     "title": "Introduction to Elasticsearch"
@@ -39,13 +39,13 @@ curl -XPUT localhost:9200/blog/posts/1 -d '{
 
 echo
 echo =================
-echo get it
+echo "get it"
 echo =================
 curl -XGET localhost:9200/blog/posts/1?pretty
 
 echo
 echo =================
-echo update it
+echo "update it"
 echo =================
 curl -XPOST localhost:9200/blog/posts/1/_update -d '{
   "doc": {
@@ -55,37 +55,37 @@ curl -XPOST localhost:9200/blog/posts/1/_update -d '{
 
 echo
 echo =================
-echo get it again to see the changes
+echo "get it again to see the changes"
 echo =================
 curl -XGET localhost:9200/blog/posts/1?pretty
 
 echo
 echo =================
-echo delete the document
+echo "delete the document"
 echo =================
 curl -XDELETE localhost:9200/blog/posts/1
 
 echo
 echo =================
-echo delete its type
+echo "delete its type"
 echo =================
 curl -XDELETE localhost:9200/blog/posts
 
 echo
 echo =================
-echo delete its index
+echo "delete its index"
 echo =================
 curl -XDELETE localhost:9200/blog
 
 echo
 echo =================
-echo delete everything
+echo "delete everything"
 echo =================
 curl -XDELETE localhost:9200
 
 echo
 echo =================
-echo URI search
+echo "URI search"
 echo =================
 curl -XPUT localhost:9200/blog/posts/1 -d '{
     "title": "Introduction to Elasticsearch",
@@ -96,7 +96,7 @@ curl 'localhost:9200/blog/posts/_search?q=elasticsearch&pretty'
 
 echo
 echo =================
-echo JSON search
+echo "JSON search"
 echo =================
 curl localhost:9200/_search?pretty -d '{
   "query": {
@@ -108,13 +108,13 @@ curl localhost:9200/_search?pretty -d '{
 
 echo
 echo =================
-echo get mapping
+echo "get mapping"
 echo =================
 curl localhost:9200/blog/posts/_mapping?pretty
 
 echo
 echo =================
-echo update mapping and reindex
+echo "update mapping and reindex"
 echo =================
 curl -XDELETE localhost:9200/blog/posts
 curl -XPUT localhost:9200/blog/posts/_mapping -d '{
@@ -142,7 +142,7 @@ curl localhost:9200/_search?pretty -d '{
 
 echo
 echo =================
-echo facet
+echo "terms facet"
 echo =================
 curl -XPUT localhost:9200/blog/posts/2 -d '{
     "title": "Introduction to Hadoop",
