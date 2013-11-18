@@ -108,6 +108,12 @@ curl localhost:9200/_search?pretty -d '{
 
 echo
 echo =================
+echo "analyze API"
+echo =================
+curl localhost:9200/_analyze?pretty -d 'new york'
+
+echo
+echo =================
 echo "get mapping"
 echo =================
 curl localhost:9200/blog/posts/_mapping?pretty
@@ -161,13 +167,6 @@ curl localhost:9200/_search?pretty -d '{
 
 echo
 echo =================
-echo "get & open Elasticsearch Head"
-echo =================
-git clone git://github.com/mobz/elasticsearch-head.git
-firefox elasticsearch-head/index.html
-
-echo
-echo =================
 echo "now we want others to join our cluster. Update config and restart"
 echo =================
 echo '
@@ -195,6 +194,28 @@ echo "change number of replicas"
 echo =================
 curl -XPUT localhost:9200/users/_settings -d '{
   "number_of_replicas": 0
+}'
+
+echo
+echo =================
+echo "bulk API"
+echo =================
+curl -XPOST localhost:9200/blog/posts/_bulk -d '{"index":{}}
+{"title": "intro to bulk"}
+{"index": {}}
+{"title": "second document"}
+'
+
+echo
+echo =================
+echo "filter example"
+echo =================
+curl localhost:9200/_search?pretty -d '{
+  "filter": {
+    "term": {
+      "tags": "new york"
+    }
+  }
 }'
 
 echo
